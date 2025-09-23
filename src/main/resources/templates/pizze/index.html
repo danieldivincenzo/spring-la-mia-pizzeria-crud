@@ -17,6 +17,7 @@
 
     <div class="container">
         <div class="mb-3 d-flex justify-content-between">
+            <a th:href="@{/pizze/create}" class="btn btn-primary">Inserisci una nuova pizza</a>
             <form method="get" th:action="@{/pizze}">
                 <div class="input-group">
                     <input name="keyword" type="search" class="form-control" placeholder="Search" aria-label="Search">
@@ -49,7 +50,6 @@
                     <td><img th:src="${item.foto}" th:alt="${item.nome}" class="img-fluid" style="max-width: 150px;">
                     </td>
                     <td th:text="${item.prezzo}"></td>
-
                     <td>
                         <a th:href="@{|pizze/show/${item.id}|}" class="btn btn-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

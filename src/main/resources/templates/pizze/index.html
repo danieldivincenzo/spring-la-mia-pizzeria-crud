@@ -12,59 +12,83 @@
 
 <body>
     <nav th:replace="~{navbar :: navbar('Pizze')}"></nav>
-
-    <h1 class="text-center m-3">Pizze</h1>
-
     <div class="container">
-        <div class="mb-3 d-flex justify-content-between">
-            <a th:href="@{/pizze/create}" class="btn btn-primary">Inserisci una nuova pizza</a>
-            <form method="get" th:action="@{/pizze}">
-                <div class="input-group">
-                    <input name="keyword" type="search" class="form-control" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-primary" type="submit">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-search" viewBox="0 0 16 16">
-                            <path
-                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                        </svg>
-
-                    </button>
+        <div class="content">
+            <th:block th:if="${successMessage != null}">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <span th:text="${successMessage}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            </form>
-        </div>
+            </th:block>
 
-        <table class="table table-striped" th:if="${lista.size() > 0}">
-            <thead>
-                <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Descrizione</th>
-                    <th scope="col">Foto</th>
-                    <th scope="col">Prezzo (&euro;)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="item : ${lista}" class="align-middle">
-                    <td th:text="${item.nome}"></td>
-                    <td th:text="${item.descrizione}"></td>
-                    <td><img th:src="${item.foto}" th:alt="${item.nome}" class="img-fluid" style="max-width: 150px;">
-                    </td>
-                    <td th:text="${item.prezzo}"></td>
-                    <td>
-                        <a th:href="@{|pizze/show/${item.id}|}" class="btn btn-primary">
+            <h1 class="text-center m-3">Pizze</h1>
+            <hr>
+
+            <div class="mb-3 d-flex justify-content-between">
+                <a th:href="@{/pizze/create}" class="btn btn-primary">
+                    Inserisci una nuova pizza
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                    </svg>
+                </a>
+
+                <form method="get" th:action="@{/pizze}">
+                    <div class="input-group">
+                        <input name="keyword" type="search" class="form-control" placeholder="Search"
+                            aria-label="Search">
+                        <button class="btn btn-primary" type="submit">
+
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-search" viewBox="0 0 16 16">
                                 <path
                                     d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                             </svg>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
 
-        <div class="alert alert-primary" role="alert" th:unless="${lista.size() > 0}">Non ci sono pizze presenti al
-            momento, ci scusiamo per l'inconveniente.</div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <table class="table table-striped" th:if="${lista.size() > 0}">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Descrizione</th>
+                        <th scope="col">Foto</th>
+                        <th scope="col">Prezzo (&euro;)</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${lista}" class="align-middle">
+                        <td th:text="${item.nome}"></td>
+                        <td th:text="${item.descrizione}"></td>
+                        <td><img th:src="${item.foto}" th:alt="${item.nome}" class="img-fluid"
+                                style="max-width: 150px;">
+                        </td>
+                        <td th:text="${item.prezzo}"></td>
+                        <td>
+                            <a th:href="@{|pizze/show/${item.id}|}" class="btn btn-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z" />
+                                    <path fill-rule="evenodd"
+                                        d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-primary" role="alert" th:unless="${lista.size() > 0}">Non ci sono pizze presenti al
+                momento, ci scusiamo per l'inconveniente.
+            </div>
+        </div>
     </div>
 
 

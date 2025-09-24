@@ -83,13 +83,25 @@ public class MainController {
     }
 
     @PostMapping("/edit/{id}")
-    public String update(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult){
+    public String update(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult, RedirectAttributes redirectAttributes){
 
         if(bindingResult.hasErrors()){
             return "/pizze/edit";
         }
         
         repository.save(formPizza);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Pizza modificata con successo");
+
+        return "redirect:/pizze";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes){
+
+        repository.deleteById(id);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Pizza eliminata con successo");
 
         return "redirect:/pizze";
     }

@@ -24,6 +24,7 @@ import jakarta.validation.Valid;
 
 
 
+
 @Controller
 @RequestMapping("/pizze")
 public class MainController {
@@ -71,4 +72,26 @@ public class MainController {
         redirectAttributes.addFlashAttribute("successMessage", "Pizza creata con successo");
         return "redirect:/pizze";
     }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Integer id, Model model) {
+        Optional <Pizza> optionalPizza = repository.findById(id);
+        Pizza pizza = optionalPizza.get();
+        model.addAttribute("pizza", pizza);
+
+        return "/pizze/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String update(@Valid @ModelAttribute("pizza") Pizza formPizza, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            return "/pizze/edit";
+        }
+        
+        repository.save(formPizza);
+
+        return "redirect:/pizze";
+    }
+    
 }
